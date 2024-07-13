@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/config/theme/app_theme.dart';
-import 'package:task_manager/features/onboarding/pages/onboarding_page.dart';
+import 'package:task_manager/features/todo/pages/home_page.dart';
 
 void main() {
   runApp(
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           theme: appTheme,
           themeMode: ThemeMode.dark,
           debugShowCheckedModeBanner: false,
-          home: const OnBoardingPage(),
+          home: const HomePage(),
         );
       },
     );

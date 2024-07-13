@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:task_manager/core/constants/constants.dart';
 import 'package:task_manager/features/onboarding/widgets/onboarding_one.dart';
 import 'package:task_manager/features/onboarding/widgets/onboarding_two.dart';
@@ -27,27 +28,27 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         children: [
           PageView(
             controller: _controller,
-            children: [
+            children: const [
               OnBoardingOne(),
               OnBoardingTwo(),
             ],
           ),
           Positioned(
             bottom: 30.h,
-            left: 20.w,
             right: 20.w,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Icon(
-                    Icons.arrow_circle_right,
-                    color: AppConst.light,
-                    size: 30,
-                  ),
+            child: GestureDetector(
+              onTap: () {},
+              child: SmoothPageIndicator(
+                controller: _controller,
+                count: 2,
+                effect: const WormEffect(
+                  dotHeight: 12,
+                  dotWidth: 16,
+                  spacing: 6,
+                  activeDotColor: AppConst.yellow,
+                  dotColor: AppConst.light,
                 ),
-              ],
+              ),
             ),
           ),
         ],

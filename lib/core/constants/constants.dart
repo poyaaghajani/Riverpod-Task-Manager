@@ -17,6 +17,7 @@ class AppConst {
 
   static double appWidth = 392.w;
   static double appHeight = 802.h;
+  static double radius = 12.h;
 
   static const String bell = "assets/images/bell.png";
   static const String notification = "assets/images/notification.png";
