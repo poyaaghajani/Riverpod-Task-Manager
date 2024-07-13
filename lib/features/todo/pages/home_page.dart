@@ -9,6 +9,7 @@ import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
 import 'package:task_manager/core/widgets/xpansion_tile.dart';
+import 'package:task_manager/features/todo/controllers/xpansion_provider.dart';
 import 'package:task_manager/features/todo/widgets/todo_tile.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -192,7 +193,33 @@ class _HomePageState extends ConsumerState<HomePage>
               XpansionTile(
                 text: "Tomorrow's Tasks",
                 text2: "Tomorrow's tasks are shown here",
-                children: [],
+                onExpansionChanged: (isExpanded) {
+                  ref
+                      .read(xpansionStateProvider.notifier)
+                      .setStart(!isExpanded);
+                },
+                trailing: Padding(
+                  padding: EdgeInsets.only(right: 12.w),
+                  child: ref.watch(xpansionStateProvider)
+                      ? const Icon(
+                          AntDesign.closecircleo,
+                          color: AppConst.light,
+                        )
+                      : const Icon(
+                          AntDesign.circledown,
+                          color: AppConst.blueLight,
+                        ),
+                ),
+                children: [
+                  TodoTile(
+                    start: '03:00',
+                    end: '04:00',
+                    switcher: CupertinoSwitch(
+                      value: true,
+                      onChanged: (value) {},
+                    ),
+                  ),
+                ],
               ),
               const Gap(height: 20),
               XpansionTile(
@@ -201,8 +228,35 @@ class _HomePageState extends ConsumerState<HomePage>
                     .toString()
                     .substring(5, 10),
                 text2: "Day after tomorrow tasks",
-                children: [],
+                onExpansionChanged: (isExpanded) {
+                  ref
+                      .read(xpansionState0Provider.notifier)
+                      .setStart(!isExpanded);
+                },
+                trailing: Padding(
+                  padding: EdgeInsets.only(right: 12.w),
+                  child: ref.watch(xpansionState0Provider)
+                      ? const Icon(
+                          AntDesign.closecircleo,
+                          color: AppConst.light,
+                        )
+                      : const Icon(
+                          AntDesign.circledown,
+                          color: AppConst.blueLight,
+                        ),
+                ),
+                children: [
+                  TodoTile(
+                    start: '03:00',
+                    end: '04:00',
+                    switcher: CupertinoSwitch(
+                      value: true,
+                      onChanged: (value) {},
+                    ),
+                  ),
+                ],
               ),
+              const Gap(height: 20),
             ],
           ),
         ),

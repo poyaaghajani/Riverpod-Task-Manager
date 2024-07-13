@@ -39,17 +39,15 @@ dependencies:
   country_picker: ^2.0.23
   pinput: ^5.0.0
   flutter_vector_icons: ^2.0.0
+  riverpod_annotation: ^2.3.4
+  sqflite: ^2.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.9
+  riverpod_generator: ^2.3.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
