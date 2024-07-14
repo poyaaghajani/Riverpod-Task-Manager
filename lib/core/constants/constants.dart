@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
+import 'package:task_manager/core/widgets/reusable_style.dart';
 
 class AppConst {
   AppConst._();
@@ -22,4 +25,18 @@ class AppConst {
   static const String bell = "assets/images/bell.png";
   static const String notification = "assets/images/notification.png";
   static const String todo = "assets/images/todo.png";
+
+  static var datePickerTheme = picker.DatePickerTheme(
+    itemStyle: reusableStyle(16, AppConst.green, FontWeight.w500),
+    doneStyle: reusableStyle(16, AppConst.green, FontWeight.w700),
+    cancelStyle: reusableStyle(16, AppConst.blueLight, FontWeight.w700),
+  );
 }
+
+const List<dynamic> colors = [
+  Color(0xffd80000),
+  Color(0xff027eb5),
+  Color(0xff20a31e),
+  Color(0xfff9f900),
+  Color(0xFF770271),
+];

@@ -5,6 +5,7 @@ import 'package:task_manager/core/constants/constants.dart';
 import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
+import 'package:task_manager/features/todo/controllers/todo_provider.dart';
 
 class BottomTitles extends StatelessWidget {
   const BottomTitles({
@@ -29,12 +30,15 @@ class BottomTitles extends StatelessWidget {
           children: [
             Consumer(
               builder: (context, ref, child) {
+                var color =
+                    ref.read(toDoStateProvider.notifier).getRandomColor();
+
                 return Container(
                   height: 80.h,
                   width: 5.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppConst.radius),
-                    color: AppConst.green,
+                    color: color,
                   ),
                 );
               },

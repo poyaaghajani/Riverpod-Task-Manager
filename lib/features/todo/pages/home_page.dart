@@ -1,16 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/constants/constants.dart';
 import 'package:task_manager/core/widgets/custom_text_filed.dart';
 import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
-import 'package:task_manager/core/widgets/xpansion_tile.dart';
-import 'package:task_manager/features/todo/controllers/xpansion_provider.dart';
-import 'package:task_manager/features/todo/widgets/todo_tile.dart';
+import 'package:task_manager/features/todo/controllers/todo_provider.dart';
+import 'package:task_manager/features/todo/pages/add_page.dart';
+import 'package:task_manager/features/todo/widgets/completed_tasks.dart';
+import 'package:task_manager/features/todo/widgets/day_after_tomorrow_tasks.dart';
+import 'package:task_manager/features/todo/widgets/pending_tasks.dart';
+import 'package:task_manager/features/todo/widgets/tomorrow_tasks.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -27,6 +30,8 @@ class _HomePageState extends ConsumerState<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(toDoStateProvider.notifier).refresh();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConst.dark,
@@ -54,7 +59,9 @@ class _HomePageState extends ConsumerState<HomePage>
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          context.push(const AddTaskPage());
+                        },
                         child: const Icon(
                           Icons.add,
                           color: AppConst.dark,
@@ -168,94 +175,21 @@ class _HomePageState extends ConsumerState<HomePage>
                       Container(
                         height: AppConst.appHeight * 0.3,
                         color: AppConst.lightBk,
-                        child: ListView(
-                          children: [
-                            TodoTile(
-                              start: '03:00',
-                              end: '04:00',
-                              switcher: CupertinoSwitch(
-                                value: true,
-                                onChanged: (value) {},
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: const PendingTasks(),
                       ),
                       Container(
                         height: AppConst.appHeight * 0.3,
                         color: AppConst.lightBk,
+                        child: const CompletedTasks(),
                       ),
                     ],
                   ),
                 ),
               ),
               const Gap(height: 20),
-              XpansionTile(
-                text: "Tomorrow's Tasks",
-                text2: "Tomorrow's tasks are shown here",
-                onExpansionChanged: (isExpanded) {
-                  ref
-                      .read(xpansionStateProvider.notifier)
-                      .setStart(!isExpanded);
-                },
-                trailing: Padding(
-                  padding: EdgeInsets.only(right: 12.w),
-                  child: ref.watch(xpansionStateProvider)
-                      ? const Icon(
-                          AntDesign.closecircleo,
-                          color: AppConst.light,
-                        )
-                      : const Icon(
-                          AntDesign.circledown,
-                          color: AppConst.blueLight,
-                        ),
-                ),
-                children: [
-                  TodoTile(
-                    start: '03:00',
-                    end: '04:00',
-                    switcher: CupertinoSwitch(
-                      value: true,
-                      onChanged: (value) {},
-                    ),
-                  ),
-                ],
-              ),
+              const TomorrowTasks(),
               const Gap(height: 20),
-              XpansionTile(
-                text: DateTime.now()
-                    .add(const Duration(days: 2))
-                    .toString()
-                    .substring(5, 10),
-                text2: "Day after tomorrow tasks",
-                onExpansionChanged: (isExpanded) {
-                  ref
-                      .read(xpansionState0Provider.notifier)
-                      .setStart(!isExpanded);
-                },
-                trailing: Padding(
-                  padding: EdgeInsets.only(right: 12.w),
-                  child: ref.watch(xpansionState0Provider)
-                      ? const Icon(
-                          AntDesign.closecircleo,
-                          color: AppConst.light,
-                        )
-                      : const Icon(
-                          AntDesign.circledown,
-                          color: AppConst.blueLight,
-                        ),
-                ),
-                children: [
-                  TodoTile(
-                    start: '03:00',
-                    end: '04:00',
-                    switcher: CupertinoSwitch(
-                      value: true,
-                      onChanged: (value) {},
-                    ),
-                  ),
-                ],
-              ),
+              const DayAfterTomorrowTasks(),
               const Gap(height: 20),
             ],
           ),

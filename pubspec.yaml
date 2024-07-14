@@ -41,6 +41,8 @@ dependencies:
   flutter_vector_icons: ^2.0.0
   riverpod_annotation: ^2.3.4
   sqflite: ^2.3.2
+  dynamic_color: ^1.7.0
+  flutter_datetime_picker_plus: ^2.2.0
 
 dev_dependencies:
   flutter_test:
