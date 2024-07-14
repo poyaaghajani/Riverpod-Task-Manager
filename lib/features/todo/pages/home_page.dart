@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/constants/constants.dart';
 import 'package:task_manager/core/widgets/custom_text_filed.dart';
 import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
 import 'package:task_manager/features/todo/controllers/todo_provider.dart';
-import 'package:task_manager/features/todo/pages/add_page.dart';
 import 'package:task_manager/features/todo/widgets/completed_tasks.dart';
 import 'package:task_manager/features/todo/widgets/day_after_tomorrow_tasks.dart';
 import 'package:task_manager/features/todo/widgets/pending_tasks.dart';
+import 'package:task_manager/features/todo/widgets/todo_header.dart';
+import 'package:task_manager/features/todo/widgets/todo_tab.dart';
 import 'package:task_manager/features/todo/widgets/tomorrow_tasks.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -37,61 +37,7 @@ class _HomePageState extends ConsumerState<HomePage>
         backgroundColor: AppConst.dark,
         automaticallyImplyLeading: false,
         elevation: 0,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(85),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ReusableText(
-                      text: 'Dashboard',
-                      style: reusableStyle(18, AppConst.light, FontWeight.bold),
-                    ),
-                    Container(
-                      width: 25.w,
-                      height: 25.h,
-                      decoration: BoxDecoration(
-                        color: AppConst.light,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          context.push(const AddTaskPage());
-                        },
-                        child: const Icon(
-                          Icons.add,
-                          color: AppConst.dark,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Gap(height: 20),
-              CustomTextFiled(
-                hintText: 'Search',
-                hintStyle: reusableStyle(16, AppConst.dark, FontWeight.bold),
-                controller: _searchKey,
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(14.h),
-                  child: const Icon(
-                    AntDesign.search1,
-                    color: AppConst.greyLight,
-                  ),
-                ),
-                suffixIcon: const Icon(
-                  FontAwesome.sliders,
-                  color: AppConst.greyLight,
-                ),
-              ),
-              const Gap(height: 20),
-            ],
-          ),
-        ),
+        bottom: _appBarBottom(context),
       ),
       body: SafeArea(
         child: Padding(
@@ -99,20 +45,7 @@ class _HomePageState extends ConsumerState<HomePage>
           child: ListView(
             children: [
               const Gap(height: 20),
-              Row(
-                children: [
-                  const Icon(
-                    FontAwesome.tasks,
-                    size: 20,
-                    color: AppConst.light,
-                  ),
-                  const Gap(width: 10),
-                  ReusableText(
-                    text: 'Todays Tasks',
-                    style: reusableStyle(18, AppConst.light, FontWeight.bold),
-                  ),
-                ],
-              ),
+              const ToDoHeader(),
               const Gap(height: 25),
               Container(
                 decoration: BoxDecoration(
@@ -129,37 +62,9 @@ class _HomePageState extends ConsumerState<HomePage>
                     color: AppConst.greyLight,
                     borderRadius: BorderRadius.circular(AppConst.radius),
                   ),
-                  tabs: [
-                    Tab(
-                      child: SizedBox(
-                        width: AppConst.appWidth * 0.5,
-                        child: Center(
-                          child: ReusableText(
-                            text: 'Pending',
-                            style: reusableStyle(
-                              16,
-                              AppConst.dark,
-                              FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Tab(
-                      child: SizedBox(
-                        width: AppConst.appWidth * 0.5,
-                        child: Center(
-                          child: ReusableText(
-                            text: 'Completed',
-                            style: reusableStyle(
-                              16,
-                              AppConst.dark,
-                              FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  tabs: const [
+                    ToDoTab(text: 'Pending'),
+                    ToDoTab(text: 'Completed'),
                   ],
                 ),
               ),
@@ -194,6 +99,39 @@ class _HomePageState extends ConsumerState<HomePage>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  PreferredSize _appBarBottom(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(85.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ReusableText(
+            text: 'Dashboard',
+            style: reusableStyle(18, AppConst.light, FontWeight.bold),
+          ),
+          const Gap(height: 20),
+          CustomTextFiled(
+            hintText: 'Search',
+            hintStyle: reusableStyle(16, AppConst.dark, FontWeight.bold),
+            controller: _searchKey,
+            prefixIcon: Padding(
+              padding: EdgeInsets.all(14.h),
+              child: const Icon(
+                AntDesign.search1,
+                color: AppConst.greyLight,
+              ),
+            ),
+            suffixIcon: const Icon(
+              FontAwesome.sliders,
+              color: AppConst.greyLight,
+            ),
+          ),
+          const Gap(height: 20),
+        ],
       ),
     );
   }

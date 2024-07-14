@@ -20,25 +20,28 @@ class XpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppConst.lightBk,
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      color: AppConst.lightBk,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConst.radius),
       ),
-      child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          title: BottomTitles(
-            text: text,
-            text2: text2,
-          ),
-          tilePadding: EdgeInsets.zero,
-          childrenPadding: EdgeInsets.zero,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onExpansionChanged: onExpansionChanged,
-          trailing: trailing,
-          children: children,
+      child: ExpansionTile(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppConst.radius),
         ),
+        title: BottomTitles(
+          text: text,
+          text2: text2,
+        ),
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: EdgeInsets.zero,
+        controlAffinity: ListTileControlAffinity.trailing,
+        onExpansionChanged: onExpansionChanged,
+        trailing: trailing,
+        children: children,
       ),
     );
   }
