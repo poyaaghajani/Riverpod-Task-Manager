@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pinput.dart';
 import 'package:task_manager/core/constants/constants.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
+import 'package:task_manager/features/auth/controllers/auth_controller.dart';
 
-class OtpPage extends StatelessWidget {
-  const OtpPage({super.key});
+class OtpPage extends ConsumerWidget {
+  const OtpPage({
+    super.key,
+    required this.phone,
+    required this.verificationId,
+  });
+
+  final String phone;
+  final String verificationId;
+
+  void verifyOtpCode({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String smsCode,
+  }) {
+    ref.read(authProvider).verifyOtp(
+          context: context,
+          verificationId: verificationId,
+          smsCode: smsCode,
+          mounted: true,
+        );
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -37,10 +59,22 @@ class OtpPage extends StatelessWidget {
                 length: 6,
                 showCursor: true,
                 onCompleted: (value) {
-                  if (value.length == 6) {}
+                  if (value.length == 6) {
+                    return verifyOtpCode(
+                      context: context,
+                      ref: ref,
+                      smsCode: value,
+                    );
+                  }
                 },
                 onSubmitted: (value) {
-                  if (value.length == 6) {}
+                  if (value.length == 6) {
+                    return verifyOtpCode(
+                      context: context,
+                      ref: ref,
+                      smsCode: value,
+                    );
+                  }
                 },
               )
             ],
