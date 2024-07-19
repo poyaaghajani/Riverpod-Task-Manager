@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Task Manager</h1>
 
-<p id="description">An Offline task manager</p>
+<p id="description">An offline task manager that helps you create your routine in the shortest time</p>
 
 <h2>💻 Built with</h2>
 
