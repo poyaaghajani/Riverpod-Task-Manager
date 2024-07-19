@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/constants/constants.dart';
 import 'package:task_manager/core/widgets/custom_outlined_btn.dart';
+import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/features/auth/pages/login_page.dart';
 
 class OnBoardingTwo extends StatelessWidget {
@@ -22,7 +23,7 @@ class OnBoardingTwo extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Image.asset(AppConst.todo),
           ),
-          const SizedBox(height: 50),
+          const Gap(height: 60),
           CustomOutlinedBtn(
             onTap: () {
               context.push(const LoginPage());

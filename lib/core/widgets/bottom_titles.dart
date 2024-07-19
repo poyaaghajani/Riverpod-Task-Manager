@@ -51,7 +51,7 @@ class BottomTitles extends StatelessWidget {
                 children: [
                   ReusableText(
                     text: text,
-                    style: reusableStyle(24, AppConst.light, FontWeight.bold),
+                    style: reusableStyle(20, AppConst.light, FontWeight.bold),
                   ),
                   const Gap(height: 10),
                   ReusableText(

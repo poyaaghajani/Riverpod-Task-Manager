@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'date_provider.g.dart';
 
@@ -22,6 +24,18 @@ class StartTimeState extends _$StartTimeState {
 
   void setStart(String newState) {
     state = newState;
+  }
+
+  List<int> dates(DateTime startDate) {
+    DateTime now = DateTime.now();
+    Duration difference = startDate.difference(now);
+    log(startDate.toString());
+    return [
+      difference.inDays,
+      difference.inHours % 24,
+      difference.inMinutes % 60,
+      difference.inSeconds % 60,
+    ];
   }
 }
 

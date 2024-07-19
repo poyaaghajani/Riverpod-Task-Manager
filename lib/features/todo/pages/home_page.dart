@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/constants/constants.dart';
+import 'package:task_manager/core/helpers/notification_helper.dart';
 import 'package:task_manager/core/widgets/custom_text_filed.dart';
 import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
 import 'package:task_manager/features/todo/controllers/todo_provider.dart';
+import 'package:task_manager/features/todo/pages/notif_page.dart';
 import 'package:task_manager/features/todo/widgets/completed_tasks.dart';
 import 'package:task_manager/features/todo/widgets/day_after_tomorrow_tasks.dart';
 import 'package:task_manager/features/todo/widgets/pending_tasks.dart';
@@ -27,6 +30,18 @@ class _HomePageState extends ConsumerState<HomePage>
   late final TabController _tabController =
       TabController(length: 2, vsync: this);
   final TextEditingController _searchKey = TextEditingController();
+
+  @override
+  void initState() {
+    listenToNotification();
+    super.initState();
+  }
+
+  listenToNotification() {
+    NotificationHelper.onClickNotification.stream.listen((event) {
+      context.push(NotificationPage(payload: event));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

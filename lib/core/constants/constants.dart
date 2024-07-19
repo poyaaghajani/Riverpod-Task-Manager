@@ -39,4 +39,6 @@ const List<dynamic> colors = [
   Color(0xff20a31e),
   Color(0xfff9f900),
   Color(0xFF770271),
+  Color(0xFFFFA008),
+  Color(0xFF00FFBF),
 ];

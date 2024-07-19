@@ -13,6 +13,7 @@ class CustomTextFiled extends StatelessWidget {
     this.hintStyle,
     required this.controller,
     this.onChanged,
+    this.textInputAction,
   });
 
   final TextInputType? keyboardType;
@@ -22,6 +23,7 @@ class CustomTextFiled extends StatelessWidget {
   final TextStyle? hintStyle;
   final TextEditingController controller;
   final void Function(String)? onChanged;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class CustomTextFiled extends StatelessWidget {
       ),
       child: TextFormField(
         keyboardType: keyboardType,
-        cursorHeight: 25,
+        textInputAction: textInputAction,
         onChanged: onChanged,
         controller: controller,
         style: reusableStyle(18, AppConst.dark, FontWeight.w700),
@@ -53,14 +55,6 @@ class CustomTextFiled extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppConst.radius),
             borderSide: const BorderSide(color: Colors.transparent, width: 0.5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppConst.radius),
-            borderSide: const BorderSide(color: AppConst.red, width: 0.5),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppConst.radius),
-            borderSide: const BorderSide(color: AppConst.greyDark, width: 0.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppConst.radius),

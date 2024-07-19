@@ -22,7 +22,7 @@ class OtpPage extends ConsumerWidget {
     required WidgetRef ref,
     required String smsCode,
   }) {
-    ref.read(authProvider).verifyOtp(
+    ref.read(authProvider.notifier).verifyOtp(
           context: context,
           verificationId: verificationId,
           smsCode: smsCode,
@@ -32,7 +32,10 @@ class OtpPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var authState = ref.watch(authProvider);
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
@@ -46,7 +49,7 @@ class OtpPage extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 30.w),
                 child: Image.asset(
                   AppConst.todo,
-                  width: AppConst.appWidth * 0.5,
+                  width: AppConst.appWidth * 0.6,
                 ),
               ),
               const SizedBox(height: 26),
@@ -76,7 +79,15 @@ class OtpPage extends ConsumerWidget {
                     );
                   }
                 },
-              )
+              ),
+              if (authState.isVerifyLoading) ...[
+                SizedBox(height: 20.h),
+                const Center(
+                  child: CircularProgressIndicator(
+                    color: AppConst.light,
+                  ),
+                )
+              ],
             ],
           ),
         ),

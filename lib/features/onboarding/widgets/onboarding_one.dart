@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_manager/core/constants/constants.dart';
+import 'package:task_manager/core/widgets/gap.dart';
 import 'package:task_manager/core/widgets/reusable_style.dart';
 import 'package:task_manager/core/widgets/reusable_text.dart';
 
@@ -21,7 +22,7 @@ class OnBoardingOne extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Image.asset(AppConst.todo),
           ),
-          const SizedBox(height: 100),
+          const Gap(height: 60),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

@@ -18,9 +18,10 @@ class ToDoState extends _$ToDoState {
     state = data.map((e) => TaskModel.fromJson(e)).toList();
   }
 
-  Future<void> addItem(TaskModel task) async {
-    await DbHelper.createItem(task);
+  Future<int> addItem(TaskModel task) async {
+    final newTaskId = await DbHelper.createItem(task);
     refresh();
+    return newTaskId;
   }
 
   dynamic getRandomColor() {

@@ -40,7 +40,7 @@ class _LiginPageState extends ConsumerState<LoginPage> {
       return showAlretDialog(
           context: context, msg: 'Please enter a valid phone number');
     } else {
-      ref.read(authProvider).sendSms(
+      ref.read(authProvider.notifier).sendSms(
             context: context,
             phone: '+${_country.phoneCode}${_phone.text}',
           );
@@ -49,15 +49,21 @@ class _LiginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    var authState = ref.watch(authProvider);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: ListView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.w),
-                child: Image.asset(AppConst.todo),
+                child: Image.asset(
+                  AppConst.todo,
+                  width: AppConst.appWidth * 0.6,
+                ),
               ),
               SizedBox(height: 20.h),
               Align(
@@ -83,6 +89,23 @@ class _LiginPageState extends ConsumerState<LoginPage> {
                               reusableStyle(15, AppConst.dark, FontWeight.w600),
                           searchTextStyle:
                               reusableStyle(15, AppConst.dark, FontWeight.w600),
+                          inputDecoration: InputDecoration(
+                            hintText: 'Search your Country...',
+                            hintStyle: reusableStyle(
+                                15, AppConst.greyLight, FontWeight.w600),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: AppConst.greyLight,
+                            )),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: AppConst.greyLight,
+                            )),
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: AppConst.greyLight,
+                            )),
+                          ),
                           bottomSheetHeight: AppConst.appHeight * 0.6,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(AppConst.radius),
@@ -111,16 +134,22 @@ class _LiginPageState extends ConsumerState<LoginPage> {
                 controller: _phone,
               ),
               SizedBox(height: 20.h),
-              CustomOutlinedBtn(
-                onTap: () {
-                  sendCodeToUser();
-                },
-                height: AppConst.appHeight * 0.07,
-                width: AppConst.appWidth * 0.9,
-                color: AppConst.dark,
-                bgColor: AppConst.light,
-                text: "Send Code",
-              ),
+              authState.isSendLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppConst.light,
+                      ),
+                    )
+                  : CustomOutlinedBtn(
+                      onTap: () async {
+                        await sendCodeToUser();
+                      },
+                      height: AppConst.appHeight * 0.07,
+                      width: AppConst.appWidth * 0.9,
+                      color: AppConst.dark,
+                      bgColor: AppConst.light,
+                      text: "Send Code",
+                    ),
             ],
           ),
         ),

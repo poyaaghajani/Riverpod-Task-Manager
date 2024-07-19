@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/core/constants/constants.dart';
+import 'package:task_manager/core/helpers/notification_helper.dart';
 import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/core/widgets/custom_outlined_btn.dart';
 import 'package:task_manager/core/widgets/custom_text_filed.dart';
@@ -54,6 +55,7 @@ class _AddTaskPageState extends ConsumerState<UpdateTaskPage> {
     var endTime = ref.watch(endTimeStateProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -65,6 +67,7 @@ class _AddTaskPageState extends ConsumerState<UpdateTaskPage> {
             const Gap(height: 20),
             CustomTextFiled(
               hintText: 'Add title',
+              textInputAction: TextInputAction.next,
               hintStyle: reusableStyle(16, AppConst.greyLight, FontWeight.w600),
               controller: _title,
             ),
@@ -158,6 +161,8 @@ class _AddTaskPageState extends ConsumerState<UpdateTaskPage> {
                     scheduleDate.isNotEmpty &&
                     startTime.isNotEmpty &&
                     endTime.isNotEmpty) {
+                  NotificationHelper.cancel(widget.task.id!);
+
                   ref.read(toDoStateProvider.notifier).updateItem(
                         id: widget.task.id!,
                         title: _title.text,
@@ -167,9 +172,15 @@ class _AddTaskPageState extends ConsumerState<UpdateTaskPage> {
                         startTime: startTime,
                         endTime: endTime,
                       );
-                  ref.read(startTimeStateProvider.notifier).setStart('');
-                  ref.read(endTimeStateProvider.notifier).setEnd('');
-                  ref.read(dateStateProvider.notifier).setDate('');
+
+                  String notificationTime = '$scheduleDate $startTime';
+
+                  NotificationHelper.showScheduleNotification(
+                    DateTime.parse(notificationTime),
+                    widget.task,
+                    widget.task.id!,
+                  );
+
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

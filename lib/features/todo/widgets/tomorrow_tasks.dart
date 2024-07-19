@@ -4,6 +4,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/constants/constants.dart';
+import 'package:task_manager/core/helpers/notification_helper.dart';
 import 'package:task_manager/core/widgets/xpansion_tile.dart';
 import 'package:task_manager/features/todo/controllers/todo_provider.dart';
 import 'package:task_manager/features/todo/controllers/xpansion_provider.dart';
@@ -49,6 +50,7 @@ class TomorrowTasks extends ConsumerWidget {
             start: todo.startTime,
             end: todo.endTime,
             delete: () {
+              NotificationHelper.cancel(todo.id!);
               ref.read(toDoStateProvider.notifier).deleteItem(todo.id!);
             },
             editWidget: GestureDetector(

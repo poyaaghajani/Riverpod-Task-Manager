@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/helpers/db_helper.dart';
 import 'package:task_manager/core/utils/show_dialog.dart';
+import 'package:task_manager/features/auth/pages/login_page.dart';
 import 'package:task_manager/features/auth/pages/otp_page.dart';
 import 'package:task_manager/features/todo/pages/home_page.dart';
 
@@ -15,11 +18,10 @@ class AuthReposytory {
 
   AuthReposytory({required this.auth});
 
-  void verifyOtp({
+  Future<void> verifyOtp({
     required BuildContext context,
     required String verificationId,
     required String smsCode,
-    required bool mounted,
   }) async {
     try {
       final credential = PhoneAuthProvider.credential(
@@ -28,17 +30,40 @@ class AuthReposytory {
       );
 
       await auth.signInWithCredential(credential);
-      if (!mounted) {
-        return;
-      } else {
-        context.pushAndRemoveUntil(const HomePage());
+
+      DbHelper.createUser(1);
+      context.pushAndRemoveUntil(const HomePage());
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'invalid-verification-code':
+          errorMessage = 'The verification code is invalid. Please try again.';
+          break;
+        default:
+          errorMessage =
+              'An unexpected error occurred. Please try again later.';
       }
-    } on FirebaseAuth catch (e) {
-      showAlretDialog(context: context, msg: e.toString());
+      showAlretDialog(
+        context: context,
+        msg: errorMessage,
+        barrierDismissible: false,
+        onPressed: () {
+          context.pushAndRemoveUntil(const LoginPage());
+        },
+      );
+    } catch (e) {
+      showAlretDialog(
+        context: context,
+        msg: 'An unexpected error occurred: $e',
+        barrierDismissible: false,
+        onPressed: () {
+          context.pushAndRemoveUntil(const LoginPage());
+        },
+      );
     }
   }
 
-  void sendOtp({
+  Future<void> sendOtp({
     required BuildContext context,
     required String phone,
   }) async {
@@ -52,14 +77,15 @@ class AuthReposytory {
           showAlretDialog(context: context, msg: e.toString());
         },
         codeSent: (String verificationId, int? resendToken) {
-          DbHelper.createUser(1);
           context.pushAndRemoveUntil(
               OtpPage(phone: phone, verificationId: verificationId));
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } on FirebaseAuth catch (e) {
-      showAlretDialog(context: context, msg: e.toString());
+      if (context.mounted) {
+        showAlretDialog(context: context, msg: e.toString());
+      }
     }
   }
 }

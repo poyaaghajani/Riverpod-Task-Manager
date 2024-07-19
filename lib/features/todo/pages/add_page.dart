@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/core/constants/constants.dart';
+import 'package:task_manager/core/helpers/notification_helper.dart';
 import 'package:task_manager/core/models/task_model.dart';
+import 'package:task_manager/core/utils/show_dialog.dart';
 import 'package:task_manager/core/widgets/custom_outlined_btn.dart';
 import 'package:task_manager/core/widgets/custom_text_filed.dart';
 import 'package:task_manager/core/widgets/gap.dart';
@@ -20,6 +22,7 @@ class AddTaskPage extends ConsumerStatefulWidget {
 }
 
 class _AddTaskPageState extends ConsumerState<AddTaskPage> {
+  final NotificationHelper notificationHelper = NotificationHelper();
   final TextEditingController _title = TextEditingController();
   final TextEditingController _desc = TextEditingController();
 
@@ -37,6 +40,7 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
     var endTime = ref.watch(endTimeStateProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -47,6 +51,7 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
           children: [
             const Gap(height: 20),
             CustomTextFiled(
+              textInputAction: TextInputAction.next,
               hintText: 'Add title',
               hintStyle: reusableStyle(16, AppConst.greyLight, FontWeight.w600),
               controller: _title,
@@ -135,7 +140,7 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
             ),
             const Spacer(),
             CustomOutlinedBtn(
-              onTap: () {
+              onTap: () async {
                 if (_title.text.isNotEmpty &&
                     _desc.text.isNotEmpty &&
                     scheduleDate.isNotEmpty &&
@@ -152,16 +157,23 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
                     repeat: 'yes',
                   );
 
-                  ref.read(toDoStateProvider.notifier).addItem(task);
-                  ref.read(startTimeStateProvider.notifier).setStart('');
-                  ref.read(endTimeStateProvider.notifier).setEnd('');
-                  ref.read(dateStateProvider.notifier).setDate('');
-                  Navigator.pop(context);
+                  int newTaskId =
+                      await ref.read(toDoStateProvider.notifier).addItem(task);
+
+                  String notificationTime = '$scheduleDate $startTime';
+
+                  NotificationHelper.showScheduleNotification(
+                    DateTime.parse(notificationTime),
+                    task,
+                    newTaskId,
+                  );
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please fill all fields'),
-                    ),
+                  showAlretDialog(
+                    context: context,
+                    msg: 'Please fill all fields',
                   );
                 }
               },

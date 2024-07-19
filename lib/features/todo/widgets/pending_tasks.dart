@@ -3,6 +3,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/config/routes/app_route.dart';
 import 'package:task_manager/core/constants/constants.dart';
+import 'package:task_manager/core/helpers/notification_helper.dart';
 import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/features/todo/controllers/todo_provider.dart';
 import 'package:task_manager/features/todo/pages/update_page.dart';
@@ -32,6 +33,7 @@ class PendingTasks extends ConsumerWidget {
 
         return TodoTile(
           delete: () {
+            NotificationHelper.cancel(data.id!);
             ref.read(toDoStateProvider.notifier).deleteItem(data.id!);
           },
           editWidget: GestureDetector(
