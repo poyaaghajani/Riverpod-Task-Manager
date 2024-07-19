@@ -1,16 +1,21 @@
-# task_manager
+<h1 align="center" id="title">Task Manager</h1>
 
-A new Flutter project.
+<p id="description">An Offline task manager</p>
 
-## Getting Started
+<h2>💻 Built with</h2>
 
-This project is a starting point for a Flutter application.
+Technologies used in the project:
 
-A few resources to get you started if this is your first Flutter project:
+*   riverpod
+*   hooks_riverpod
+*   riverpod_annotation
+*   sqflite
+*   firebase_auth
+*   firebase_core
+*   flutter_local_notifications
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h3>🦖 ScreenShots</h3>
+![Screenshot_20240719-122230](https://github.com/user-attachments/assets/7f701d65-68e1-4f16-878b-52e7a66eaaa6)
+
+
