@@ -16,6 +16,8 @@ Technologies used in the project:
 
 
 <h3>🦖 ScreenShots</h3>
-![Screenshot_20240719-122230](https://github.com/user-attachments/assets/7f701d65-68e1-4f16-878b-52e7a66eaaa6)
 
 
+
+![Screenshot_20240719-122230](https://github.com/user-attachments/assets/1e956e12-5454-4654-a62f-0f8514a4978b)
+![Screenshot_20240719-122237](https://github.com/user-attachments/assets/997df4b8-9e27-4134-bd6b-33f7a40167c3)
